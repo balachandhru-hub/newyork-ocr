@@ -56,6 +56,10 @@ export const UaeModule: React.FC = () => {
     return <Navigate to="/uae-einvoicing/command-center" replace />;
   }
 
+  const pageTitle = section === 'command-center'
+    ? 'UAE e-Invoicing Control Center'
+    : (NAV.find(([slug]) => slug === section)?.[1] || 'UAE e-Invoicing');
+
   return (
     <>
       <Header />
@@ -70,10 +74,7 @@ export const UaeModule: React.FC = () => {
         </nav>
         <main className="uae-main">
           <div className="uae-heading">
-            <div>
-              <h1>UAE e-Invoicing</h1>
-              <p>Customer compliance, mapping and transaction control for every UAE legal entity.</p>
-            </div>
+            <h2>{pageTitle}</h2>
             <div className="uae-toolbar">
               <select aria-label="Tenant" value={tenantId} onChange={(event) => setTenantId(event.target.value)}>
                 {(context?.tenants || []).map((tenant) => (

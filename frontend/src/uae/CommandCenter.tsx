@@ -1,6 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { AlertTriangle, CheckCircle, Clock, FileText, Link2, Loader, XCircle } from 'lucide-react';
 import { uaeApi } from './api';
 import { Panel, StatusChip } from './ui';
+
+const KPI_STYLE: Record<string, { tone: string; icon: React.ComponentType<{ size?: number }> }> = {
+  'Total Transactions': { tone: 'blue', icon: FileText },
+  Successful: { tone: 'green', icon: CheckCircle },
+  Pending: { tone: 'orange', icon: Clock },
+  Processing: { tone: 'purple', icon: Loader },
+  Rejected: { tone: 'red', icon: XCircle },
+  'Compliance Failed': { tone: 'red', icon: XCircle },
+  'ASP Failed': { tone: 'red', icon: XCircle },
+  'Integration Failed': { tone: 'orange', icon: Link2 },
+  'Needs Attention': { tone: 'orange', icon: AlertTriangle },
+};
 
 export const CommandCenter: React.FC<{ tenantId: string }> = ({ tenantId }) => {
   const [data, setData] = useState<any>(null);
@@ -12,20 +25,21 @@ export const CommandCenter: React.FC<{ tenantId: string }> = ({ tenantId }) => {
   if (!data) return <div className="uae-panel">Loading control center…</div>;
 
   return (
-    <>
-      <div className="uae-heading">
-        <div>
-          <h1>UAE e-Invoicing Control Center</h1>
-          <p>Real-time compliance, integration and transaction monitoring</p>
-        </div>
-      </div>
+    <div className="uae-command">
       <div className="uae-kpis">
-        {data.kpis.map((kpi: { label: string; value: number }) => (
-          <article key={kpi.label} className="uae-kpi">
-            <span>{kpi.label}</span>
-            <strong>{kpi.value}</strong>
-          </article>
-        ))}
+        {data.kpis.map((kpi: { label: string; value: number }) => {
+          const style = KPI_STYLE[kpi.label] || { tone: 'blue', icon: FileText };
+          const Icon = style.icon;
+          return (
+            <article key={kpi.label} className="uae-kpi">
+              <div className="uae-kpi-head">
+                <span>{kpi.label}</span>
+                <span className={`uae-kpi-icon ${style.tone}`}><Icon size={18} /></span>
+              </div>
+              <strong>{kpi.value}</strong>
+            </article>
+          );
+        })}
       </div>
       <Panel title="Transaction split">
         <div className="uae-split">
@@ -115,24 +129,24 @@ export const CommandCenter: React.FC<{ tenantId: string }> = ({ tenantId }) => {
           </Panel>
         </>
       )}
-          <Panel title="Customer source pipeline">
-            <div className="uae-source-list">
-              {(data.phase3?.sources || []).map((source: any) => (
-                <article key={source.code} className="uae-source">
-                  <header><b>{source.source}</b><StatusChip value={source.connection} /></header>
-                  <div className="uae-meta">
-                    <span>Last sync <b>{source.lastSync ? new Date(source.lastSync).toLocaleString() : '—'}</b></span>
-                    <span>Received today <b>{source.receivedToday}</b></span>
-                    <span>Processed <b>{source.processed}</b></span>
-                    <span>Compliance passed <b>{source.passed}</b></span>
-                    <span>Compliance failed <b>{source.failed}</b></span>
-                    <span>Exceptions <b>{source.exceptions}</b></span>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </Panel>
-          <Panel title="Compliance health">
+      <Panel title="Customer source pipeline">
+        <div className="uae-source-list">
+          {(data.phase3?.sources || []).map((source: any) => (
+            <article key={source.code} className="uae-source">
+              <header><b>{source.source}</b><StatusChip value={source.connection} /></header>
+              <div className="uae-meta">
+                <span>Last sync <b>{source.lastSync ? new Date(source.lastSync).toLocaleString() : '—'}</b></span>
+                <span>Received today <b>{source.receivedToday}</b></span>
+                <span>Processed <b>{source.processed}</b></span>
+                <span>Compliance passed <b>{source.passed}</b></span>
+                <span>Compliance failed <b>{source.failed}</b></span>
+                <span>Exceptions <b>{source.exceptions}</b></span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </Panel>
+      <Panel title="Compliance health">
         <div className="uae-health">
           {data.compliance.map((item: { label: string; status: string; score: number }) => (
             <div key={item.label} className="uae-health-row">
@@ -146,6 +160,6 @@ export const CommandCenter: React.FC<{ tenantId: string }> = ({ tenantId }) => {
           {data.gate.map((stage: string) => <span key={stage}>{stage}</span>)}
         </div>
       </Panel>
-    </>
+    </div>
   );
 };

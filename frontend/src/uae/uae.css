@@ -2,36 +2,38 @@
   background: #edeff0;
   min-height: calc(100vh - 64px);
   display: flex;
+  flex-direction: column;
   align-items: stretch;
   color: #1e293b;
+  width: 100%;
 }
 
 .uae-nav {
-  width: 228px;
-  flex: 0 0 228px;
+  width: 100%;
+  flex: none;
   background: #ffffff;
-  border-right: 1px solid #d9d9d9;
-  padding: 16px 10px 24px;
+  border-bottom: 1px solid #d9d9d9;
+  padding: 8px 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  align-items: center;
 }
 
 .uae-nav-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #64748b;
-  padding: 0 10px 8px;
+  display: none;
 }
 
 .uae-nav a {
-  display: block;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
   color: #334155;
   font-size: 13px;
   font-weight: 600;
-  padding: 7px 10px;
-  border-radius: 6px;
-  margin-bottom: 2px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
 }
 
 .uae-nav a.active {
@@ -42,28 +44,37 @@
 .uae-main {
   flex: 1;
   min-width: 0;
-  padding: 20px 24px 32px;
+  width: 100%;
+  padding: 22px 28px 28px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .uae-heading {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 16px;
-  align-items: flex-end;
-  margin-bottom: 14px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
 }
 
-.uae-heading h1 {
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.3px;
-  color: #0f172a;
+.uae-heading h1,
+.uae-heading h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  letter-spacing: 0;
+  line-height: 1.2;
 }
 
 .uae-heading p {
   margin-top: 4px;
   color: #64748b;
   font-size: 13px;
+  font-weight: 400;
 }
 
 .uae-toolbar {
@@ -80,11 +91,16 @@
 .uae-field textarea {
   border: 1px solid #cbd5e1;
   background: #fff;
-  border-radius: 6px;
-  padding: 7px 10px;
+  border-radius: 4px;
+  padding: 7px 12px;
   font-size: 13px;
-  color: #0f172a;
+  color: #1e293b;
   font-family: inherit;
+  height: 34px;
+}
+
+.uae-field textarea {
+  height: auto;
 }
 
 .uae-role {
@@ -96,79 +112,132 @@
   padding: 4px 8px;
 }
 
+.uae-command {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.uae-command > .uae-panel,
+.uae-command .uae-source-grid > .uae-panel,
+.uae-command .uae-two > .uae-panel {
+  margin-bottom: 0;
+}
+
 .uae-kpis {
   display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 0;
 }
 
 .uae-kpi,
 .uae-panel {
-  background: #fff;
+  background: #ffffff;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
+  box-shadow: none;
 }
 
 .uae-kpi {
-  padding: 12px 12px 10px;
+  padding: 16px 18px;
 }
 
-.uae-kpi span {
+.uae-kpi-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.uae-kpi > span,
+.uae-kpi-head > span:first-child,
+.uae-split span {
   display: block;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #64748b;
+  margin-bottom: 0;
+}
+
+.uae-kpi > span {
   margin-bottom: 8px;
 }
 
-.uae-kpi strong {
+.uae-kpi strong,
+.uae-split strong {
+  display: block;
+  margin-top: 0;
   font-size: 22px;
   font-weight: 800;
   color: #0f172a;
   line-height: 1;
 }
 
+.uae-kpi-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 30px;
+}
+
+.uae-kpi-icon.blue { color: #0f68e6; background: #eff6ff; }
+.uae-kpi-icon.green { color: #16a34a; background: #f0fdf4; }
+.uae-kpi-icon.orange { color: #d97706; background: #fffbeb; }
+.uae-kpi-icon.purple { color: #8b5cf6; background: #f5f3ff; }
+.uae-kpi-icon.red { color: #dc2626; background: #fef2f2; }
+
 .uae-panel {
-  padding: 14px 16px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+}
+
+.uae-panel > .uae-inline {
   margin-bottom: 12px;
 }
 
 .uae-panel h2 {
-  font-size: 14px;
-  font-weight: 800;
-  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1f2937;
+  letter-spacing: 0;
+  margin: 0;
 }
 
 .uae-split {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
 }
 
 .uae-split div,
 .uae-source,
 .uae-health-row {
-  border: 1px solid #e2e8f0;
+  border: 1px solid #d9d9d9;
   border-radius: 4px;
-  padding: 10px 12px;
-  background: #f8fafc;
+  padding: 16px 18px;
+  background: #ffffff;
 }
 
-.uae-split strong,
-.uae-source strong {
-  display: block;
-  margin-top: 4px;
-  font-size: 18px;
+.uae-split span {
+  margin-bottom: 8px;
+}
+
+.uae-health-row {
+  padding: 10px 12px;
 }
 
 .uae-source-grid,
 .uae-two {
   display: grid;
   grid-template-columns: 1.4fr 0.8fr;
-  gap: 12px;
+  gap: 16px;
 }
 
 .uae-source-list {
@@ -351,14 +420,11 @@
 .uae-health { display: flex; flex-direction: column; gap: 8px; }
 
 @media (max-width: 1200px) {
-  .uae-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .uae-source-grid, .uae-two, .uae-source-list, .uae-split { grid-template-columns: 1fr; }
+  .uae-source-grid, .uae-two, .uae-source-list { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 860px) {
-  .uae-page { flex-direction: column; }
-  .uae-nav { width: 100%; flex-basis: auto; display: flex; gap: 4px; overflow-x: auto; padding: 8px; }
-  .uae-nav-label { display: none; }
-  .uae-nav a { white-space: nowrap; }
+  .uae-nav { flex-wrap: nowrap; overflow-x: auto; padding: 8px 16px; }
+  .uae-main { padding: 16px; }
   .uae-form, .uae-timeline li { grid-template-columns: 1fr; }
 }
