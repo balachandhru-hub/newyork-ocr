@@ -868,6 +868,14 @@ export const BuyerInvoiceDashboard: React.FC = () => {
               Invoice Management System
             </button>
 
+            <button
+              type="button"
+              className="excel-info-btn"
+              onClick={() => {navigate("/uae-einvoicing/command-center")}}
+            >
+              UAE e-Invoicing
+            </button>
+
            <button
               type="button"
               className="excel-info-btn"
