@@ -1,0 +1,78 @@
+name: Deploy sila-fatoora frontend
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.env*'
+      - 'src/**'
+      - 'public/**'
+      - 'index.html'
+      - 'package*.json'
+      - 'vite.config.*'
+      - 'nginx.conf'
+      - 'Dockerfile'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: [self-hosted, Linux, ARM64, CAS]
+
+    env:
+      DOCKER_BUILDKIT: 1
+      AWS_REGION: eu-west-1
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # AWS credentials come from the self-hosted runner's own ~/.aws (EC2 IAM user).
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Build ARM64 image. VITE_API_BASE_URL is baked at build time from repo .env
+      # (kept empty so the browser calls same-origin /api, proxied to the internal backend).
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          pull: true
+          platforms: linux/arm64
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/sila-fatoora-frontend:${{ github.sha }}
+            ${{ steps.login-ecr.outputs.registry }}/sila-fatoora-frontend:prod
+          cache-from: type=registry,ref=${{ steps.login-ecr.outputs.registry }}/sila-fatoora-frontend:prod
+          cache-to: type=inline
+
+      - name: Pull latest image
+        run: |
+          docker pull --platform linux/arm64 \
+            ${{ steps.login-ecr.outputs.registry }}/sila-fatoora-frontend:prod
+
+      - name: Stop old container
+        run: docker rm -f sila-fatoora-frontend-prod || true
+
+      - name: Ensure log directory exists on NVMe
+        run: mkdir -p /mnt/nvme1/docker-logs/sila-fatoora-frontend
+
+      - name: Run container
+        run: |
+          docker run -d \
+            --platform linux/arm64 \
+            --name sila-fatoora-frontend-prod \
+            --restart unless-stopped \
+            -p 8090:80 \
+            --log-driver json-file \
+            --log-opt max-size=100m \
+            --log-opt max-file=5 \
+            -v /mnt/nvme1/docker-logs/sila-fatoora-frontend:/var/log/nginx:rw \
+            ${{ steps.login-ecr.outputs.registry }}/sila-fatoora-frontend:prod
+
+      - name: Confirm deployment
+        run: docker ps | grep sila-fatoora-frontend-prod

@@ -1,0 +1,69 @@
+name: Deploy sila-fatoora frontend (ocr-pachanyc)
+
+on:
+  push:
+    branches: [ newyork ]
+    paths:
+      - '.env*'
+      - 'src/**'
+      - 'public/**'
+      - 'index.html'
+      - 'package*.json'
+      - 'vite.config.*'
+      - 'nginx.conf'
+      - 'Dockerfile'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: [self-hosted, Linux, X64, ocr-pachanyc]
+
+    env:
+      DOCKER_BUILDKIT: 1
+      AWS_REGION: eu-west-1
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # AWS creds come from the runner's own ~/.aws (chervik).
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Native amd64 build directly into the local docker engine (runner IS the deploy host).
+      - name: Build image
+        run: |
+          docker build \
+            -t ${{ steps.login-ecr.outputs.registry }}/sila-fatoora-frontend:prod-amd64 \
+            -t ${{ steps.login-ecr.outputs.registry }}/sila-fatoora-frontend:${{ github.sha }}-amd64 \
+            .
+
+      - name: Push to ECR (best-effort backup)
+        run: |
+          docker push ${{ steps.login-ecr.outputs.registry }}/sila-fatoora-frontend:prod-amd64 || echo "ECR push skipped"
+          docker push ${{ steps.login-ecr.outputs.registry }}/sila-fatoora-frontend:${{ github.sha }}-amd64 || true
+
+      - name: Stop old container
+        run: docker rm -f sila-fatoora-frontend-prod || true
+
+      - name: Ensure network + log dir
+        run: |
+          docker network inspect sila-net >/dev/null 2>&1 || docker network create sila-net
+          mkdir -p /data/docker-logs/sila-fatoora-frontend
+
+      # Frontend is EXPOSED on 8090; joins sila-net so nginx can reach the backend by name.
+      - name: Run container
+        run: |
+          docker run -d \
+            --name sila-fatoora-frontend-prod \
+            --restart unless-stopped \
+            --network sila-net \
+            -p 8090:80 \
+            --log-driver json-file --log-opt max-size=100m --log-opt max-file=5 \
+            -v /data/docker-logs/sila-fatoora-frontend:/var/log/nginx:rw \
+            ${{ steps.login-ecr.outputs.registry }}/sila-fatoora-frontend:prod-amd64
+
+      - name: Confirm deployment
+        run: docker ps | grep sila-fatoora-frontend-prod

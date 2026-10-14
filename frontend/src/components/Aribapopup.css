@@ -1,0 +1,162 @@
+/* ====== Overlay (Dark Background) ====== */
+.iet-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* ====== Modal Container ====== */
+.iet-modal-content {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease-in-out;
+  position: relative;
+}
+
+.iet-close-btn {
+  position: absolute;
+  top: 1.1rem;
+  right: 1rem;     
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.iet-close-btn:hover {
+  color: #e63946;
+}
+
+.iet-modal-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 18px;
+  margin: 0;
+  background: #f8f9fa;
+  color: #2d3436;
+  border-bottom: 1px solid #ddd;
+}
+
+.iet-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.iet-modal-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.iet-modal-table thead {
+  background: #ececec;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.iet-modal-table th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  white-space: nowrap;
+}
+
+.iet-modal-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  color: #555;
+}
+
+.iet-modal-cell {
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.iet-tooltip {
+  background-color: #2d3436 !important;
+  color: #fff !important;
+  font-size: 0.78rem !important;
+  border-radius: 6px !important;
+  max-width: 220px !important;
+  word-break: break-word !important;
+  z-index: 99999 !important;
+}
+
+@media (max-width: 768px) {
+  .iet-modal-cell {
+    max-width: 100px;
+  }
+}
+
+/* Zebra Rows */
+.iet-modal-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Hover Row */
+.iet-modal-table tbody tr:hover {
+  background-color: #f6f8fa;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* ====== Animations ====== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+  .iet-modal-title {
+    font-size: 1.2rem;
+    padding: 12px;
+  }
+
+  .iet-modal-table th,
+  .iet-modal-table td {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+}

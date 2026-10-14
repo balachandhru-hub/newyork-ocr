@@ -1,0 +1,28 @@
+name: Deploy Five Hotel Sila Fatoora Frontend
+
+on:
+  push:
+    branches: [ integration ]
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, dev]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Ensure shared docker network
+        run: docker network inspect five-hotel-net >/dev/null 2>&1 || docker network create five-hotel-net
+
+      - name: Build Docker image
+        run: docker build -t five-hotel-sila-fatoora-frontend .
+
+      - name: Stop existing container if running
+        run: docker stop five-hotel-sila-fatoora-frontend-container || true
+
+      - name: Remove existing container if exists
+        run: docker rm five-hotel-sila-fatoora-frontend-container || true
+
+      - name: Run Docker container
+        run: docker run -d --name five-hotel-sila-fatoora-frontend-container --restart unless-stopped --network five-hotel-net -p 8091:80 five-hotel-sila-fatoora-frontend

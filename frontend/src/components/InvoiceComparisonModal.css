@@ -1,0 +1,352 @@
+/* InvoiceComparisonModal.css */
+
+.icm-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.icm-modal-container {
+  background: white;
+  border-radius: 8px;
+  width: 98vw;
+  max-width: 1500px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.icm-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.icm-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.icm-close-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #666;
+  padding: 4px;
+}
+
+.icm-close-button:hover {
+  color: #333;
+}
+
+.icm-action-buttons {
+  display: flex;
+  justify-content: space-between; /* pushes dropdown left, buttons right */
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #2563EB;
+}
+
+.icm-dropdown-wrapper {
+  flex: 1;
+}
+
+.icm-buttons-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.icm-dropdown {
+  max-width: 160px;
+  padding: 6px 12px;
+  font-size: 12px;
+  border: 1px solid #2563EB;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+}
+
+
+.icm-copy-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  color: #2563EB;
+  border: 1px solid #2563EB;
+  border-radius: 4px;
+  background: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.icm-copy-button:hover {
+  background: #f9fafb;
+}
+
+.icm-copy-icon {
+  font-size: 12px;
+}
+
+.icm-edit-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #2563eb;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.icm-edit-button:hover {
+  background: #1d4ed8;
+}
+
+.icm-edit-icon {
+  font-size: 12px;
+}
+
+.icm-modal-content {
+  padding: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.icm-comparison-section {
+  margin-bottom: 24px;
+}
+
+.icm-item-section {
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.icm-item-header {
+  width: fit-content;
+  margin-bottom: 12px;
+  color: #1788df;
+  padding: 0;
+}
+
+.icm-item-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.icm-comparison-table {
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.icm-comparison-table th {
+  background: #ececec;
+  padding: 8px 12px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #374151;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.icm-comparison-table td {
+  /* padding: 8px 12px; */
+  font-size: 12px;
+  border-bottom: 1px solid #e2e2e2;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.icm-comparison-table tbody tr {
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.icm-comparison-table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.icm-field-column {
+  width: 10%;
+}
+
+.icm-data-column {
+  width: 14%;
+}
+
+.icm-status-column {
+  width: 10%;
+}
+
+.icm-comments-column {
+  width: 10%;
+}
+
+.icm-field-name {
+  font-weight: 500;
+  color: #374151;
+}
+
+.icm-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.icm-status-matched {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.icm-status-mismatched {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.icm-status-icon {
+  font-size: 8px;
+}
+
+.icm-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #e5e5e5;
+  background: #f8fafc;
+}
+
+.icm-footer-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.icm-footer-button-secondary {
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+}
+
+.icm-footer-button-secondary:hover {
+  background: #f9fafb;
+}
+
+.icm-footer-button-primary {
+  border: none;
+  background: #2563eb;
+  color: white;
+}
+
+.icm-footer-button-primary:hover {
+  background: #1d4ed8;
+}
+.icm-no-data-message {
+  text-align: center;
+  color:black;
+  font-size: 16px;
+  margin: 10px 0;
+  
+}
+
+.icm-footer-button:disabled,
+.icm-disabled {
+  background-color: #e5e7eb !important;
+  color: #9ca3af !important;
+  cursor: not-allowed !important;
+  border-color: #e5e7eb !important;
+  opacity: 0.8;
+}
+
+/* Editable Input Fields */
+.icm-editable-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 12px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  background: white;
+  color: #374151;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.icm-editable-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  background: #ffffff;
+}
+
+.icm-editable-input:hover:not(:disabled) {
+  border-color: #2563eb;
+  background: #f9fafb;
+}
+
+.icm-editable-input::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.icm-editable-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  color: #6b7280;
+  border-color: #e5e5e5;
+}
+
+/* Table cell padding for inputs */
+.icm-comparison-table td {
+  padding: 8px 12px;
+  font-size: 12px;
+  border-bottom: 1px solid #e2e2e2;
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* Special styling for cells containing inputs */
+.icm-comparison-table td:has(.icm-editable-input) {
+  padding: 4px 8px;
+}
+
+/* Input validation states (optional) */
+.icm-editable-input.error {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+
+.icm-editable-input.error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.icm-editable-input.success {
+  border-color: #16a34a;
+  background: #f0fdf4;
+}
+
+.icm-editable-input.success:focus {
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
