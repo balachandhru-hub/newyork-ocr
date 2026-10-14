@@ -104,6 +104,27 @@ export const Header: React.FC = () => {
       </Link>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        {(location.pathname === '/dashboard' || location.pathname.startsWith('/uae-einvoicing') || location.pathname.startsWith('/invoice_extractor')) && (
+          <Link
+            to="/uae-einvoicing/command-center"
+            style={{
+              fontSize: '13px',
+              fontWeight: 700,
+              color: location.pathname.startsWith('/uae-einvoicing') ? '#0f68e6' : '#1e293b',
+              textDecoration: 'none',
+              padding: '6px 10px',
+              borderRadius: '8px',
+              background: location.pathname.startsWith('/uae-einvoicing') ? '#eff6ff' : 'transparent',
+            }}
+          >
+            UAE e-Invoicing
+          </Link>
+        )}
+        {location.pathname.startsWith('/uae-einvoicing') && (
+          <Link to="/dashboard" style={{ fontSize: '13px', fontWeight: 600, color: '#475569', textDecoration: 'none' }}>
+            Dashboard
+          </Link>
+        )}
         {showPoweredBy && (
         <div className="header-powered-by" title="Powered by CAS">
           <span className="header-powered-by-label">Powered by</span>

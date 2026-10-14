@@ -4,6 +4,7 @@ import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { DashboardPage } from './pages/DashboardPage';
 import InvoiceExtractor from './pages/InvoiceExtractor';
+import { UaeModule } from './uae/UaeModule';
 import { refreshToken } from './api/AuthApi';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -31,6 +32,9 @@ export const App: React.FC = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/invoice_extractor" element={<InvoiceExtractor />} />
+        <Route path="/uae-einvoicing" element={<UaeModule />} />
+        <Route path="/uae-einvoicing/transactions/:txnId" element={<UaeModule />} />
+        <Route path="/uae-einvoicing/:section" element={<UaeModule />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={5000} newestOnTop closeOnClick />
